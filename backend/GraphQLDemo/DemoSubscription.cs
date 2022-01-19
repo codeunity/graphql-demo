@@ -9,8 +9,10 @@ public class DemoSubscription : ObjectGraphType
     {
         Field<StringGraphType>()
             .Name("currentDateTime")
-            .Resolve(ctx => ctx.Source as string ?? throw new InvalidOperationException())
-            .Subscribe(ctx => Observable.Interval(TimeSpan.FromSeconds(1)).Select(x => DateTimeOffset.Now.ToString("s")));
+            .Resolve(ctx => (ctx.Source as string)!)
+            .Subscribe(ctx => Observable
+                .Interval(TimeSpan.FromSeconds(1))
+                .Select(x => DateTimeOffset.Now.ToString("s")));
     }
 }
 
